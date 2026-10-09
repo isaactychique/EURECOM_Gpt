@@ -103,6 +103,43 @@ Everything you write lives in **one Git repository** — this one. Each phase is
 reports go in `submission/`; pushing runs that phase's autograder in your own GitHub Actions.
 Colab clones this repo to get your code, so **commit and push before you open a notebook**.
 
+## Where the commands were taught
+
+Every task in every phase ends with a **Taught in** line like *Foundation M2 — Virtual
+Networks*. That is not decoration: the `gcloud` commands are deliberately withheld from the task
+sheets because the named module already walked you through them, in the console and in a guided
+lab. When you are stuck, that line is the first place to go — before the help text, and long
+before an AI.
+
+The short names used throughout map to the six Google Cloud courses on your learning path:
+
+| Short name | Course |
+|---|---|
+| **Fundamentals** | Google Cloud Fundamentals: Core Infrastructure |
+| **Foundation** | Essential Google Cloud Infrastructure: Foundation |
+| **Core Services** | Essential Google Cloud Infrastructure: Core Services |
+| **Elastic** | Elastic Google Cloud Infrastructure: Scaling and Automation |
+| **GKE** | Getting Started with Google Kubernetes Engine |
+| **badges** | skill badges, named in full where they appear: *Set Up an App Dev Environment*, *Build Infrastructure with Terraform* |
+
+Open each one from **your own enrolment** in the assigned learning path — progress counts
+towards the certificate voucher only when the course or lab is launched from there.
+
+### Which module each phase leans on
+
+| Phase | Modules it assumes you have done | What you are expected to recall |
+|---|---|---|
+| **0 — Setup** | Fundamentals M1–M2 · Foundation M1 | projects, IAM, billing budgets, `gcloud` and Cloud Shell |
+| **1 — IaaS → serverless** | Fundamentals M3, M5, M6 · Foundation M2–M3 | VMs and disks, a custom VPC with a firewall rule, Artifact Registry, Cloud Run, Cloud Run functions |
+| **2 — Train the model** | Fundamentals M4 · *Set Up an App Dev Environment* badge | bucket writes, making one object publicly readable |
+| **3 — Index the corpus** | Fundamentals M2, M6 · Core Services M1–M2 | deploying a private function, a least-privilege service account, BigQuery datasets and queries |
+| **4 — The chat app** | Fundamentals M5–M6 · Core Services M1–M2 | build and deploy a container with env vars, a **custom IAM role**, static hosting on Cloud Storage |
+| **5 — Remember conversations** | Core Services M2 · Fundamentals M6 | Firestore (Native mode), redeploying a revision, Cloud Build |
+| **6 — Capstone** | Core Services M1, M4 · Elastic M3 · *Build Infrastructure with Terraform* badge | service-account impersonation, Terraform, alerting policies, log sinks |
+
+Lectures 9–11 (consistency and CAP, two-phase commit, Paxos and Raft) have no lab: they are
+examined, not built.
+
 ## How you are graded, in one paragraph
 
 Every phase ships **public tests** you can run yourself (`python -m pytest <phase>/tests -p
