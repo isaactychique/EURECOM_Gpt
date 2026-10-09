@@ -538,7 +538,7 @@ run in which the live tests see your service.
 ## Deliverables
 
 1. Completed `terraform/*.tf` (by the agent, reviewed by you) and `agent/policy.json` (by you).
-2. `submission/phase6_report.json` with all four stages, plus `submission/phase6_loadtest.json`.
+2. `submission/phase6_report.json` with all three stages, plus `submission/phase6_loadtest.json`.
 3. `submission/phase6_review.md` — the three faults in PR #12.
 4. `submission/phase6_supervision.md` — the log.
 5. `submission/phase6_postmortem.md`.

@@ -35,14 +35,25 @@ def time_attention(fn, T: int = 256, d: int = 64, repeats: int = 5) -> float:
 
 
 def threading_sweep(step_fn, threads=(1, 2, 4, 8)) -> dict:
-    """Time ``step_fn()`` under torch.set_num_threads(t) for each t. Returns {t: ms}."""
+    """Time ``step_fn()`` under torch.set_num_threads(t) for each t. Returns {t: ms}.
+
+    The thread count is **restored** before returning. It is a global setting, so leaving it at
+    the last value in ``threads`` would silently distort everything timed afterwards: Colab
+    gives you 2 vCPUs, and a CPU baseline left running with 8 intra-op threads is oversubscribed
+    and slower than the machine can actually go — which would inflate the GPU speed-up measured
+    in the next section.
+    """
     import torch
 
+    original = torch.get_num_threads()
     out = {}
-    for t in threads:
-        torch.set_num_threads(int(t))
-        step_fn()  # warmup
-        out[str(t)] = time_ms(step_fn, repeats=3)
+    try:
+        for t in threads:
+            torch.set_num_threads(int(t))
+            step_fn()  # warmup
+            out[str(t)] = time_ms(step_fn, repeats=3)
+    finally:
+        torch.set_num_threads(original)
     return out
 
 

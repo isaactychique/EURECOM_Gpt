@@ -66,7 +66,8 @@ host↔device transfer overhead for small batches, when the GPU is starved.)
   download, no torch.
 - **Report check**: your `submission/phase2_report.json` must show the measured speedups
   (vectorized < naive, GPU < CPU), a trained-down loss, and a text sample.
-- The Colab **notebook + 1-page reflection** are assessed by the instructor.
+- The Colab **notebook** and the **reflection** ([reflection_template.md](reflection_template.md),
+  filled in) are assessed by the instructor.
 
 ## Free-tier & safety
 

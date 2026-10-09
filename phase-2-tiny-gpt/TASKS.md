@@ -1,8 +1,10 @@
 # Phase 2 — Tasks & Deliverables
 
-Read [README.md](README.md) first. You **code** the two attention functions on any machine
-(Cloud Shell is fine for editing + the offline tests), then **train** in **Google Colab**
-with a **GPU runtime**. Work through the tasks in order.
+Read [README.md](README.md) first. The model code is **provided and working**, so the required
+path is: run the offline tests on any machine (Cloud Shell is fine), then **train** in **Google
+Colab** with a **GPU runtime**, publish the weights and write the reflection. Implementing the
+attention functions yourself is **optional** and described in Task 1. Work through the tasks in
+order.
 
 > **How these task sheets work.** Each cloud task states an *objective*, names the module and
 > lecture where you were taught the commands, and says what the autograder checks.
@@ -92,11 +94,22 @@ once — recall that command yourself.
 
 ---
 
-## Task 6 — Write the report and the 1-page reflection
+## Task 6 — Write the report and the reflection
 
 The final notebook cell writes `submission/phase2_report.json` (timings, final loss, sample,
-and your model's public URL). Also write `submission/phase2_reflection.md` (~1 page):
-**where does parallelism stop helping, and why?**
+and your model's public URL).
+
+The reflection is not a free essay — copy the template and fill in its answer slots:
+
+```bash
+cp phase-2-tiny-gpt/reflection_template.md submission/phase2_reflection.md
+```
+
+It asks for your five headline numbers (copied from `phase2_report.json`, not retyped), your
+four thread timings, then why vectorizing won, where the thread curve flattened and why, what
+made the GPU faster and what would not benefit — and finally the phase's question:
+**where does parallelism stop helping, and why?**, answered with a number from your own runs
+behind each claim. Every slot is read when your work is graded.
 
 ---
 
@@ -115,7 +128,7 @@ python -m pytest phase-2-tiny-gpt/tests -p autograder.points -q   # full public 
 1. `attention_numpy.py` and `model.py` (the provided solution, or your own optional implementation).
 2. The completed **Colab notebook** (with outputs + the threading plot).
 3. `submission/phase2_report.json` and a **public** `model.safetensors` in Cloud Storage.
-4. `submission/phase2_reflection.md` — the 1-page "where does parallelism stop helping?".
+4. `submission/phase2_reflection.md` — the filled-in reflection template (Task 6).
 5. A **green** `autograde-phase-2` CI run.
 
 ## How your work is checked
