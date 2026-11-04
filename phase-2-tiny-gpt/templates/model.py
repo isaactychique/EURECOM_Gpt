@@ -19,21 +19,30 @@ import torch.nn.functional as F
 from config import CONFIG, GPTConfig
 
 
-def scaled_dot_product_attention(q, k, v, mask):
-    """Causal scaled dot-product attention.
 
-    Args:
-        q, k, v: tensors of shape ``(B, n_head, T, head_dim)``.
-        mask: boolean tensor ``(T, T)``, ``True`` where attention is allowed
-              (lower-triangular — position i may attend to j <= i).
-    Returns:
-        tensor ``(B, n_head, T, head_dim)``:
-            att = softmax( (q @ kᵀ) / sqrt(head_dim)  with masked positions set to -inf )
-            out = att @ v
+import math
+import torch
+import torch.nn.functional as F
+
+
+def scaled_dot_product_attention(q, k, v, mask):
     """
-    # TODO: scores = q @ kᵀ / sqrt(head_dim); mask out where ~mask with -inf;
-    #       softmax over the last dim; return att @ v.
-    raise NotImplementedError("Phase 2: implement scaled_dot_product_attention()")
+    Causal scaled dot-product attention.
+
+    q, k, v: (B, n_head, T, head_dim)
+    mask:    (T, T), True where attention is allowed
+
+    Returns:
+        (B, n_head, T, head_dim)
+    """
+    head_dim = q.size(-1)
+    scores = torch.matmul(q, k.transpose(-2, -1))
+    scores = scores / math.sqrt(head_dim)
+    scores = scores.masked_fill(~mask, float('-inf'))
+    att = F.softmax(scores, dim=-1)
+    out = torch.matmul(att, v)
+
+    return out
 
 
 class CausalSelfAttention(nn.Module):
