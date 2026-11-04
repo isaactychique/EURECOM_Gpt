@@ -16,86 +16,93 @@ Numbers must **match `submission/phase1_report.json`** exactly — that file is 
 memory.
 
 ---
+# Phase 1 — Comparison Report
 
 ## 1. Setup facts
 
-**Your image size**, in MB, from `gcloud artifacts docker images list` (number only, e.g. `142`):
+**Your image size**, in MB:
 
 <!--answer:image_size_mb-->
-TODO
+49.99
 <!--/answer-->
 
-**The custom VPC and subnet you created** (names only):
+**The custom VPC and subnet you created:**
 
 <!--answer:vpc_name-->
-TODO
+echo-net
 <!--/answer-->
 
 <!--answer:subnet_name-->
-TODO
+echo-subnet
 <!--/answer-->
 
 ---
 
 ## 2. Measurements
 
-Copy these from `submission/phase1_report.json`. Cold is `cold_ms`; warm median is
-`stats.median`. Numbers only, in milliseconds (e.g. `812.4`).
-
 | Platform | Cold (ms) | Warm median (ms) |
-|---|---|---|
-| IaaS VM | <!--answer:vm_cold_ms-->TODO<!--/answer--> | <!--answer:vm_warm_median_ms-->TODO<!--/answer--> |
-| Cloud Run | <!--answer:cloudrun_cold_ms-->TODO<!--/answer--> | <!--answer:cloudrun_warm_median_ms-->TODO<!--/answer--> |
-| Cloud Function | <!--answer:function_cold_ms-->TODO<!--/answer--> | <!--answer:function_warm_median_ms-->TODO<!--/answer--> |
+|---|---:|---:|
+| IaaS VM | <!--answer:vm_cold_ms-->255.0<!--/answer--> | <!--answer:vm_warm_median_ms-->210.8<!--/answer--> |
+| Cloud Run | <!--answer:cloudrun_cold_ms-->139.0<!--/answer--> | <!--answer:cloudrun_warm_median_ms-->631.1<!--/answer--> |
+| Cloud Function | <!--answer:function_cold_ms-->190.0<!--/answer--> | <!--answer:function_warm_median_ms-->130.8<!--/answer--> |
 
-Include your histogram or plot of the warm distribution below (an image, or the ASCII chart
-`measure.py` prints). This is read by a human, not the grader:
+**Latency plot**
 
 <!--answer:latency_plot-->
-TODO
+```text
+Warm latency (ms)
+
+VM:             ████████████████████  209–215
+Cloud Run:      █████████ 120–130
+                ███████████ 631–668
+Function:       █████████████ 122–133
+                █ 197
+                ██████ 634–642
+```
 <!--/answer-->
 
 ---
 
 ## 3. Per-platform analysis
 
-**Scaling behaviour.** Imagine requests arriving one at a time, then ten at once, then a
-hundred. For each of the three platforms, answer concretely:
-
-- Does anything get created automatically to absorb the load — and if so, *what* exactly?
-  (One platform here creates nothing at all.)
-- What is the hard limit, and where does it come from — a flag you passed yourself, or the
-  size of the machine you picked?
-
-(~80 words. Your `--machine-type=e2-micro` and `--max-instances=3` are both concrete answers
-to the second question.)
+**Scaling behaviour**
 
 <!--answer:scaling_behaviour-->
-TODO
+The VM does not scale automatically; it uses one machine (`e2-micro`). Cloud Run creates additional container instances when traffic increases, up to the configured limit of 3 instances (`--max-instances=3`). Cloud Functions also creates instances automatically according to incoming requests, subject to Google Cloud quotas and instance limits.
 <!--/answer-->
 
-**Deployment effort.** What did you have to build, configure and maintain to get each of the
-three running? (~100 words)
+**Deployment effort**
 
 <!--answer:deployment_effort-->
-TODO
+The VM required machine, network, firewall and application configuration. Cloud Run required a Dockerfile, image build, Artifact Registry and deployment. Cloud Functions required Python source code, a runtime, an entry point and an HTTP trigger. Google manages most infrastructure and scaling for the two managed platforms, making deployment easier than with a VM.
 <!--/answer-->
 
 ---
 
 ## 4. Why do two of your three numbers look alike?
 
-With Cloud Run and your Function both deployed, run `gcloud run services list` and paste the
-**complete output** here, unedited:
+**Complete output of `gcloud run services list`:**
 
 <!--answer:run_services_list-->
-TODO
+```text
+✔
+SERVICE: echo
+REGION: us-central1
+URL: https://echo-992086212292.us-central1.run.app
+LAST DEPLOYED BY: service-992086212292@gcf-admin-robot.iam.gserviceaccount.com
+LAST DEPLOYED AT: 2026-11-04T21:37:17.000898Z
+
+✔
+SERVICE: echo-bot
+REGION: us-central1
+URL: https://echo-bot-992086212292.us-central1.run.app
+LAST DEPLOYED BY: Sounsin-Isaac-Tychique.DAKIO@eurecom.fr
+LAST DEPLOYED AT: 2026-11-04T21:36:08.006098Z
+```
 <!--/answer-->
 
-Now explain what that output tells you about how your Function is actually being run, why its
-cold start resembles Cloud Run's so closely, and what — if anything — genuinely differs between
-the two deployment paths. (~120 words)
+**Convergence explanation**
 
 <!--answer:convergence_explanation-->
-TODO
+Both Cloud Run and Cloud Functions appear as Cloud Run services because second-generation Functions use Cloud Run infrastructure. This explains their similar cold-start times. However, Cloud Run requires deploying a Docker image, while Cloud Functions deploys source code with a specified entry point. Their warm performance differs: Cloud Run has a median of 631.1 ms, compared with 130.8 ms for the Function.
 <!--/answer-->

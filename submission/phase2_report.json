@@ -1,0 +1,30 @@
+{
+  "phase": "2",
+  "environment": {
+    "colab": true
+  },
+  "attention": {
+    "naive_ms": 547.026,
+    "vectorized_ms": 8.188,
+    "speedup": 66.81
+  },
+  "threads": {
+    "1": 2778.402,
+    "2": 2318.278,
+    "4": 2492.769,
+    "8": 3146.47
+  },
+  "devices": {
+    "cpu_ms": 472782.0,
+    "gpu_ms": 13044.9
+  },
+  "training": {
+    "steps": 2000,
+    "final_loss": 1.4536,
+    "param_count": 4935680
+  },
+  "sample": "\nPETRUCHIO:\nThat, sir, Mortal which; I know; I husband it the\ndo?\n\nLUCIO:\nPareter.\n\nThird Citizen:\nI day, trum, I that houses, disful was his head,\nClack'd hearinon: itheu it now thy good brimnace.\n\nKE",
+  "model": {
+    "gcs_url": "https://storage.googleapis.com/992086212292-eurecomgpt/model.safetensors"
+  }
+}
